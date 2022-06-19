@@ -75,7 +75,8 @@ For example:
 
 ```
 <?fnl (dofile :header.fhp) ?>
-<h1>Home</h1>
+<?fnl (dofile :page-template.fhp {:title "Home"}) ?>
+<p>Lorum ipsum</p>
 <?fnl (dofile :footer.fhp) ?>
 ```
 
