@@ -69,7 +69,7 @@ The FHP compiler is very forgiving in that it does not check your fennel code fo
 
 ## Builtins
 
-The only builtin right now is the `dofile` function, which is similar to lua or fennel's `dofile` except it expects a path to a fhp file and an option environment object. This is useful for creating layout files, such as a header/footer, and small reusable components that can accept parameters. 
+The only builtin right now is the `dofile` function, which is similar to lua or fennel's `dofile` except it expects a path to a fhp file and an optional environment table. This is useful for creating layout files, such as a header/footer, and small reusable components that can accept parameters. 
 
 For example:
 
