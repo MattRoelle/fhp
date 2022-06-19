@@ -1,0 +1,4 @@
+<h1>404</h1>
+
+<h2><?fnl (ngx.say ngx.var.uri) ?></h2>
+
