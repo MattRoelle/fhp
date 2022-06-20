@@ -19,13 +19,12 @@ The easiest way to get started is to clone this repo and use the example folder 
 ## Command line
 
 ```bash
-chmod a+x fhp
 ./fhp compile test.fhp
 ```
 
 ## How?
 
-The FHP compiler is extremely simple. It takes input in the form of HTML with `<?fnl/?>	 tags inside of it and translates it into valid fennel code. Anything not inside of a `<?fnl/?>	 tag is wrapped in a call to ngx.say, and everything inside of a `<?fnl/?>` tag is inserted into the output as is.
+The FHP compiler is extremely simple. It takes input in the form of HTML with `<?fnl/?>`	 tags inside of it and translates it into valid fennel code. Anything not inside of a `<?fnl/?>`	 tag is wrapped in a call to ngx.say, and everything inside of a `<?fnl/?>` tag is inserted into the output as is.
 
 For example, the above code will compile to:
 

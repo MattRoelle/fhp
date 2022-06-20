@@ -2,7 +2,8 @@ all: fhp.lua fhp example
 
 fhp:
 	echo "#!/usr/bin/env lua" >> fhp
-	cat fhp.lua >> fhp
+	fennel --require-as-include -c cli.fnl >> fhp
+	chmod a+x fhp
 
 fhp.lua: fhp.fnl
 	fennel --require-as-include -c fhp.fnl > fhp.lua

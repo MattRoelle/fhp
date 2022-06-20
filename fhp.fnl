@@ -56,9 +56,7 @@
 
 (λ fhp-compile-string [str options]
   (accumulate [output "" tokens (fhp-tokenize-iterator str options)]
-    (do
-      (print :tokens tokens)
-      (.. output " " (table.concat tokens " ")))))
+    (.. output " " (table.concat tokens " "))))
 
 
 (λ fhp-compile-file [path options]
@@ -85,19 +83,11 @@
                 :eval fhp-eval}
                ?env))))
 
-;; if args are passed, run CLI
-(match arg
-  [:compile file ?flags]
-  (let [options
-        (get-options
-         (when ?flags
-           (fennel.eval ?flags {:env {}})))]
-    (print (fhp-compile-file file options))))
-
 {: fhp-eval
  : fhp-compile-file
  : fhp-dofile
  : fhp-base-options
+ : get-options
  :fhpEval fhp-eval
  :fhpCompileFile fhp-compile-file
  :fhpDofile fhp-dofile}
