@@ -5548,17 +5548,26 @@ local function fhp_tokenize_iterator(str, options)
   _G.assert((nil ~= str), "Missing argument str on fhp.fnl:38")
   local char_idx = 1
   local function _5_()
-    local begin, _end, fnl_code = string.find(str, "<%?fnl(.-)%?>", char_idx)
-    local _6_, _7_, _8_ = begin, _end, fnl_code
+    local _6_, _7_, _8_ = string.find(str, "<%?fnl(.-)%?>", char_idx)
     if ((_6_ == nil) and true and true) then
       local _ = _7_
       local _0 = _8_
-      if (1 == char_idx) then
-        return fhp_format_emit_string(str, options)
+      local at_beginning = (1 == char_idx)
+      local at_end = (char_idx <= #str)
+      local tokens
+      if at_beginning then
+        tokens = {fhp_format_emit_string(str, options)}
+      elseif not at_end then
+        tokens = {fhp_format_emit_string(string.sub(char_idx, #str), options)}
       else
-        return nil
+        tokens = nil
       end
-    elseif ((_6_ == begin) and (_7_ == _end) and (_8_ == fnl_code)) then
+      char_idx = (1 + #str)
+      return tokens
+    elseif ((nil ~= _6_) and (nil ~= _7_) and (nil ~= _8_)) then
+      local begin = _6_
+      local _end = _7_
+      local fnl_code = _8_
       local before = string.sub(str, char_idx, (begin - 1))
       local tokens = {}
       for _, tokenize in ipairs(options.tokenizers) do
@@ -5573,8 +5582,8 @@ local function fhp_tokenize_iterator(str, options)
   return _5_
 end
 local function fhp_compile_string(str, options)
-  _G.assert((nil ~= options), "Missing argument options on fhp.fnl:57")
-  _G.assert((nil ~= str), "Missing argument str on fhp.fnl:57")
+  _G.assert((nil ~= options), "Missing argument options on fhp.fnl:60")
+  _G.assert((nil ~= str), "Missing argument str on fhp.fnl:60")
   local output = ""
   for tokens in fhp_tokenize_iterator(str, options) do
     output = (output .. " " .. table.concat(tokens, " "))
@@ -5582,14 +5591,14 @@ local function fhp_compile_string(str, options)
   return output
 end
 local function fhp_compile_file(path, options)
-  _G.assert((nil ~= options), "Missing argument options on fhp.fnl:62")
-  _G.assert((nil ~= path), "Missing argument path on fhp.fnl:62")
+  _G.assert((nil ~= options), "Missing argument options on fhp.fnl:65")
+  _G.assert((nil ~= path), "Missing argument path on fhp.fnl:65")
   local file_contents = read_file_as_string(path)
   return fhp_compile_string(file_contents, options)
 end
 local function get_env(builtins, options, _3fenv)
-  _G.assert((nil ~= options), "Missing argument options on fhp.fnl:66")
-  _G.assert((nil ~= builtins), "Missing argument builtins on fhp.fnl:66")
+  _G.assert((nil ~= options), "Missing argument options on fhp.fnl:69")
+  _G.assert((nil ~= builtins), "Missing argument builtins on fhp.fnl:69")
   local env = {}
   for k, v in pairs((options.sandbox or _G)) do
     env[k] = v
@@ -5603,8 +5612,8 @@ local function get_env(builtins, options, _3fenv)
   return env
 end
 local function fhp_eval(fnl_code, env)
-  _G.assert((nil ~= env), "Missing argument env on fhp.fnl:73")
-  _G.assert((nil ~= fnl_code), "Missing argument fnl-code on fhp.fnl:73")
+  _G.assert((nil ~= env), "Missing argument env on fhp.fnl:76")
+  _G.assert((nil ~= fnl_code), "Missing argument fnl-code on fhp.fnl:76")
   if (#fnl_code > 0) then
     return fennel.eval(fnl_code, {env = env})
   else
@@ -5612,7 +5621,7 @@ local function fhp_eval(fnl_code, env)
   end
 end
 local function fhp_dofile(path, _3foptions, _3fenv)
-  _G.assert((nil ~= path), "Missing argument path on fhp.fnl:77")
+  _G.assert((nil ~= path), "Missing argument path on fhp.fnl:80")
   local options = get_options(_3foptions)
   local function _12_(_241, _242)
     return fhp_dofile(_241, (_242 or _3fenv))

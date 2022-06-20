@@ -38,21 +38,24 @@
 (λ fhp-tokenize-iterator [str options]
   (var char-idx 1)
   (λ []
-    (let [(begin end fnl-code) (string.find
-                                str "<%?fnl(.-)%?>"
-                                char-idx)]
-      (match (values begin end fnl-code)
-        (nil _ _)
-        ;; handle case with no <?fnl ?> tags
-        (when (= 1 char-idx)
-          (fhp-format-emit-string str options))
-        (begin end fnl-code)
-        (let [before (string.sub str char-idx (- begin 1))
-              tokens []]
-          (each [_ tokenize (ipairs options.tokenizers)]
-            (table.insert tokens (tokenize str options before begin end fnl-code)))
-          (set char-idx (+ end 1))
-          tokens))))) 
+   (match (string.find str "<%?fnl(.-)%?>" char-idx)
+     (nil _ _)
+     ;; handle case with no <?fnl ?> tags
+     (let [at-beginning (= 1 char-idx)
+           at-end (<= char-idx (length str))
+           tokens (if at-beginning
+                      [(fhp-format-emit-string str options)]
+                      (not at-end)
+                      [(fhp-format-emit-string (string.sub char-idx (length str)) options)])]
+       (set char-idx (+ 1 (length str)))
+       tokens)
+     (begin end fnl-code)
+     (let [before (string.sub str char-idx (- begin 1))
+           tokens []]
+       (each [_ tokenize (ipairs options.tokenizers)]
+         (table.insert tokens (tokenize str options before begin end fnl-code)))
+       (set char-idx (+ end 1))
+       tokens)))) 
 
 (λ fhp-compile-string [str options]
   (accumulate [output "" tokens (fhp-tokenize-iterator str options)]
