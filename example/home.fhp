@@ -1,7 +1,7 @@
 <h1>Welcome to FHP!</h1>
 
 <h3>Data binding exapmle</h3>
-<h4>foo: <?fnl (ngx.say foo) ?></h4>
+<h4>foo: <?fnl (echo foo) ?></h4>
 
 <h3>Iteration example</h3>
 <?fnl
@@ -9,7 +9,7 @@
 (each [ix row (ipairs data)]
 ?>
 <div>
-  <p>Foo is <?fnl (ngx.say row.foo) ?></p>
+  <p>Foo is <?fnl (echo row.foo) ?></p>
 </div>
 <?fnl )?>
 
@@ -18,7 +18,7 @@
 (fn even-odd-display [n]
 ?>
 <div class="even-odd">
-  <p><?fnl (ngx.say n) ?> is <?fnl (ngx.say (if (= 0 (% n 2)) "even" "odd")) ?></p>
+  <p><?fnl (echo n) ?> is <?fnl (echo (if (= 0 (% n 2)) "even" "odd")) ?></p>
 </div>
 <?fnl ) ?>
 
