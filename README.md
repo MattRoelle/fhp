@@ -1,7 +1,7 @@
 # FHP | Fennel Hypertext Processor
 
 ```html
-<h1>Hello! You requested <?fnl (ngx.say ngx.var.uri) ?></h1>
+<h1>Hello! You requested <?fnl (echo ngx.var.uri) ?></h1>
 ```
 
 ## What?
@@ -24,14 +24,14 @@ The easiest way to get started is to clone this repo and use the example folder 
 
 ## How?
 
-The FHP compiler is extremely simple. It takes input in the form of HTML with `<?fnl/?>`	 tags inside of it and translates it into valid fennel code. Anything not inside of a `<?fnl/?>`	 tag is wrapped in a call to ngx.say, and everything inside of a `<?fnl/?>` tag is inserted into the output as is.
+The FHP compiler is extremely simple. It takes input in the form of HTML with `<?fnl/?>`	 tags inside of it and translates it into valid fennel code. Anything not inside of a `<?fnl/?>`	 tag is wrapped in a call to echo, and everything inside of a `<?fnl/?>` tag is inserted into the output as is.
 
 For example, the above code will compile to:
 
 ```fennel
-(ngx.say "<h1>Hello! You requested ")
-(ngx.say ngx.var.uri)
-(ngx.say "</h1>")
+(echo "<h1>Hello! You requested ")
+(echo ngx.var.uri)
+(echo "</h1>")
 ```
 
 ## Examples
@@ -54,7 +54,7 @@ The FHP compiler is very forgiving in that it does not check your fennel code fo
 (each [ix row (ipairs data)]
 ?>
 <div>
-  <p>Foo is <?fnl (ngx.say row.foo) ?></p>
+  <p>Foo is <?fnl (echo row.foo) ?></p>
 </div>
 <?fnl )?>
 ```
@@ -66,7 +66,7 @@ The FHP compiler is very forgiving in that it does not check your fennel code fo
 (fn even-odd-display [n]
 ?>
 <div class="even-odd">
-  <p><?fnl (ngx.say n) ?> is <?fnl (ngx.say (if (= 0 (% n 2)) "even" "odd")) ?></p>
+  <p><?fnl (echo n) ?> is <?fnl (echo (if (= 0 (% n 2)) "even" "odd")) ?></p>
 </div>
 <?fnl ) ?>
 
@@ -96,7 +96,7 @@ I am in the process of modifying emacs mhtml-mode to enable a good editing exper
 
 #### Data binding shorthand
 
-I like the idea of a shorthand syntax for <?fnl (ngx.say foo) ?> for data binding, since this is the primary use case for such a templating language anyways. Perhaps <?! foo ?>.
+I like the idea of a shorthand syntax for <?fnl (echo foo) ?> for data binding, since this is the primary use case for such a templating language anyways. Perhaps <?! foo ?>.
 
 #### More macros to clean up the template code
 
